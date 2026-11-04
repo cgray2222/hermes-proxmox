@@ -1,0 +1,33 @@
+# Copy this file to plugin-catalog/proxmox.yaml in a clone of NousResearch/hermes-agent,
+# then replace SHA with the full 40-character commit you want reviewed (`git rev-parse HEAD`).
+# Every field below is required by the catalog README's entry schema.
+
+name: proxmox
+repo: https://github.com/cgray2222/hermes-proxmox
+sha: REPLACE_WITH_FULL_40_CHAR_SHA
+description: >-
+  Proxmox VE for Hermes Agent: six pve_* tools (cluster inventory, per-guest status and
+  config, node health and storage, snapshot list/create/delete, recent backup job results,
+  and QEMU guest-agent command execution) plus an @pve: context reference that pulls live
+  cluster, guest or node state into the prompt on demand. Talks to the Proxmox HTTP API
+  directly with a scoped API token; standard library only. Write actions (snapshot
+  create/delete, guest exec) refuse unless the same call carries confirm=true.
+maintainer: cgray2222
+tier: community
+category: tools
+requires_hermes: ">=0.21.5"
+version: "0.1.0"
+platforms: []
+capabilities:
+  provides_tools:
+    - pve_list_guests
+    - pve_guest_status
+    - pve_node_status
+    - pve_snapshot
+    - pve_backup_status
+    - pve_guest_exec
+  provides_hooks: []
+  provides_middleware: []
+  requires_env:
+    - PVE_HOST
+    - PVE_API_TOKEN

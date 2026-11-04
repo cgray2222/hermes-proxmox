@@ -1,0 +1,59 @@
+name: proxmox
+label: Proxmox VE
+kind: standalone
+version: "0.1.0"
+author: Curtis Gray
+license: MIT
+homepage: https://github.com/cgray2222/hermes-proxmox
+description: >
+  Proxmox VE for Hermes Agent: six pve_* tools (cluster inventory, per-guest status and
+  config, node health and storage, snapshot list/create/delete, recent backup job results,
+  and QEMU guest-agent command execution) plus an @pve: context reference that pulls live
+  cluster, guest or node state into the prompt on demand. Talks to the Proxmox HTTP API
+  directly with a scoped API token; standard library only, no extra Python packages.
+  Write actions (snapshot create/delete, guest exec) refuse unless the same call carries
+  confirm=true, so the operator sees the exact change before it happens.
+requires_hermes: ">=0.21.5"
+provides_tools:
+  - pve_list_guests
+  - pve_guest_status
+  - pve_node_status
+  - pve_snapshot
+  - pve_backup_status
+  - pve_guest_exec
+provides_hooks: []
+provides_middleware: []
+requires_env:
+  - name: PVE_HOST
+    description: "Proxmox VE host or IP, e.g. 192.168.6.12 (port 8006 assumed)"
+    prompt: "Proxmox VE host (IP or hostname)"
+    password: false
+  - name: PVE_API_TOKEN
+    description: "Proxmox API token in user@realm!tokenid=secret form (needs PVEAuditor; PVEVMAdmin on guests you snapshot or exec into)"
+    prompt: "Proxmox API token (user@realm!tokenid=secret)"
+    password: true
+optional_env:
+  - name: PVE_PORT
+    description: "API port (default 8006)"
+    prompt: "Proxmox API port"
+    password: false
+  - name: PVE_USER
+    description: "Alternative to PVE_API_TOKEN: token owner, e.g. root@pam"
+    prompt: "Proxmox token user (user@realm)"
+    password: false
+  - name: PVE_TOKEN_NAME
+    description: "Alternative to PVE_API_TOKEN: token id, e.g. hermes"
+    prompt: "Proxmox token id"
+    password: false
+  - name: PVE_TOKEN_VALUE
+    description: "Alternative to PVE_API_TOKEN: the token secret"
+    prompt: "Proxmox token secret"
+    password: true
+  - name: PVE_VERIFY_TLS
+    description: "1 (default) verifies the Proxmox certificate; 0 accepts a self-signed cert"
+    prompt: "Verify Proxmox TLS certificate (1/0)"
+    password: false
+  - name: PVE_TIMEOUT
+    description: "Per-request timeout in seconds (default 20)"
+    prompt: "Proxmox request timeout (seconds)"
+    password: false
